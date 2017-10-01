@@ -21,6 +21,7 @@ memManager *Manager;
 
 void printMemory();
 VA intToVA (int dec);
+int VAToInt (VA ptr);
 int verifVA(VA ptr);
 int isFreeVA(memManager *manager, VA ptr);
 int findPlace(memManager *manager, int size);

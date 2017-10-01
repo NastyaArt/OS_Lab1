@@ -14,12 +14,31 @@ VA intToVA (int dec)
     //конвертация адреса
     return ptr;
 }
-int verifVA(VA ptr)
+
+int VAToInt (VA ptr)
 {
-    //если размер не 8, то false
-    //если состоит из 0 и 1 - то true
-    //иначе false
-    return 0;
+    int dec = 0;
+    int i=0, exp=0;
+    for (i = strlen(ptr)-1, exp = 0; i >= 0; i--, exp++) {
+        int num = ptr[i] - '0';
+        dec += num * pow(2, exp);
+    }
+    return dec;
+}
+
+int validVA(VA ptr)
+{
+    if (strlen(ptr) != ADDRESS_SIZE)  //если размер адреса не соответсвует виртуальному пространству
+        return 0;
+    int i;
+    for (i = 0; i < ADDRESS_SIZE; i++) {    //если сост не из 0 и 1
+        if (ptr[i] != '0' && ptr[i] != '1')
+            return 0;
+    }
+    if (VAToInt(ptr) > Manager->size) {     //адресов строго как размер менеджера, поэтому превышать размер нельзя
+        return 0;
+    }
+    return 1;
 }
 
 int isFreeVA(memManager *manager, VA ptr)

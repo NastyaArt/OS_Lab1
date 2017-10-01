@@ -5,7 +5,7 @@
 #include <memory.h>
 #include "mmemory.h"
 
-#define ADDRESS_CAPACITY 8              //размер адреса
+#define ADDRESS_SIZE 8              //размер адреса
 
 typedef struct {
     VA address;                         //адрес блока
