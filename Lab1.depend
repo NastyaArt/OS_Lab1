@@ -1,0 +1,26 @@
+# depslib dependency file v1.0
+1506762550 source:j:\ня\lab1\block.cpp
+	"Block.h"
+
+1506762528 j:\ня\lab1\block.h
+	<stdio.h>
+	<stdlib.h>
+	<memory.h>
+
+1506762804 source:j:\ня\lab1\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1506762676 source:j:\ня\lab1\manager.cpp
+	"manager.h"
+
+1506762528 j:\ня\lab1\manager.h
+	"block.h"
+	"mmemory.h"
+	<malloc.h>
+	<mem.h>
+	<math.h>
+
+1506717368 j:\ня\lab1\mmemory.h
+
