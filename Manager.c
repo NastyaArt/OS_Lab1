@@ -7,14 +7,14 @@ void printMemory(memManager *manager)
 	for( i=0; i < manager->size; i++)
 		printf("%c", manager->data[i] );
 }
-
+/*
 VA intToVA (int dec)
 {
     VA ptr;
     //конвертация адреса
     return ptr;
 }
-
+*/
 int VAToInt (VA ptr)
 {
     int dec = 0;
@@ -50,6 +50,18 @@ int isFreeVA(memManager *manager, VA ptr)
     return 0;
 }
 
+int findAdress(VA ptr)
+{
+    block *curBlock = Manager->blocks;
+    while (curBlock!=NULL)
+    {
+        if (strcmp(curBlock->address, ptr)==0)
+            return 0;
+        curBlock=curBlock->next;
+    }
+    return 1;
+}
+
 int findPlace(memManager *manager, int size)
 {
     //ищем пустое место в памяти
@@ -60,6 +72,10 @@ int findPlace(memManager *manager, int size)
 int _malloc (VA* ptr, size_t szBlock)
 {
 
+    if (Manager->blocks==NULL){
+        Manager->blocks=createBlock(ptr, szBlock, 0);
+        return 0;
+    }
    //проверка является ли адрес свободным
    // проверка, есть ли место
     //если нет - сжатие

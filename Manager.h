@@ -12,18 +12,18 @@
 
 typedef struct{
     int size;
-   // char data[MAX_MEMORY_SIZE];
-   char* data;
+    char* data;
     block *blocks;
 } memManager;
 
 memManager *Manager;
 
 void printMemory();
-VA intToVA (int dec);
+//VA intToVA (int dec);
 int VAToInt (VA ptr);
 int verifVA(VA ptr);
 int isFreeVA(memManager *manager, VA ptr);
+int findAdress(VA ptr);
 int findPlace(memManager *manager, int size);
 
 #endif //MEMORY_MANAGER_H

@@ -6,12 +6,14 @@
 
 int main()
 {
-    int a, z;
+    int v, add, findAdr;
     _init(20);
     VA ptr="00000010";
-    z=validVA(ptr);
-    a=VAToInt(ptr);
-    printf("\n%%d - valid adress", a, z);
+    v=validVA(ptr);
+    add=_malloc(&ptr, 10);
+    findAdr=findAdress(ptr);
+    printf("\n%d - valid adress, %d - add, %d - findAdr", v, add, findAdr);
+
 
     return 0;
 }

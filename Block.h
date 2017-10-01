@@ -15,6 +15,6 @@ typedef struct {
 	struct Block* next;                 //указатель на следующий блок
 } block;
 
-block *createBlock(VA address, int size, int offset);  //создает новый блок с указанным размером, адресом и сдвигом
+block *createBlock(VA* address, int size, int offset);  //создает новый блок с указанным размером, адресом и сдвигом
 
 #endif //MEMORY_BLOCK_H
