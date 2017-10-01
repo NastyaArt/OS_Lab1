@@ -4,8 +4,8 @@ void printMemory(memManager *manager)
 {
     int i;
 	printf( "\nMemory:\n" );
-	for( i = 0; i < manager->size; i++ )
-		printf("%c", manager->data[ i ] );
+	for( i=0; i < manager->size; i++)
+		printf("%c", manager->data[i] );
 }
 
 VA intToVA (int dec)
@@ -87,10 +87,11 @@ int _init (int sizeMemory)
     if (sizeMemory < 1 || sizeMemory > MAX_MEMORY_SIZE)
         return -1;
     Manager = (memManager *)malloc(sizeof(memManager));
-    if (Manager == NULL)
+    Manager->data=(char *)malloc(sizeMemory*sizeof(char));
+    if (Manager == NULL || Manager->data== NULL)
         return 1;
     Manager->size = sizeMemory;
-    memset(Manager->data, '0', sizeMemory);
+    memset(Manager->data, '0', Manager->size);
     Manager->blocks = NULL;
     printMemory(Manager);
     return 0;

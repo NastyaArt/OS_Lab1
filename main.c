@@ -6,7 +6,9 @@
 
 int main()
 {
-    _init(15);
+    int a;
+    a=_init(256);
+    printf("\n%d", a );
 
     return 0;
 }

@@ -12,7 +12,8 @@
 
 typedef struct{
     int size;
-    char *data;
+   // char data[MAX_MEMORY_SIZE];
+   char* data;
     block *blocks;
 } memManager;
 
