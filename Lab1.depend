@@ -24,3 +24,44 @@
 
 1506717368 j:\ня\lab1\mmemory.h
 
+1506828395 source:d:\nastya\codeblocks\lab1\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"manager.h"
+
+1506826224 source:d:\nastya\codeblocks\lab1\block.cpp
+	"Block.h"
+
+1506829345 d:\nastya\codeblocks\lab1\block.h
+	<stdio.h>
+	<stdlib.h>
+	<memory.h>
+	"mmemory.h"
+
+1506829480 d:\nastya\codeblocks\lab1\manager.h
+	<stdio.h>
+	<stdlib.h>
+	<malloc.h>
+	<mem.h>
+	<math.h>
+	"block.h"
+	"mmemory.h"
+
+1506717368 d:\nastya\codeblocks\lab1\mmemory.h
+
+1506828929 source:d:\nastya\codeblocks\lab1\manager.cpp
+	"manager.h"
+
+1506826224 source:d:\nastya\codeblocks\lab1\block.c
+	"Block.h"
+
+1506829502 source:d:\nastya\codeblocks\lab1\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"manager.h"
+
+1506829461 source:d:\nastya\codeblocks\lab1\manager.c
+	"manager.h"
+

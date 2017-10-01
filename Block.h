@@ -1,17 +1,20 @@
+#ifndef MEMORY_BLOCK_H
+#define MEMORY_BLOCK_H
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
+#include "mmemory.h"
 
 #define ADDRESS_CAPACITY 8              //размер адреса
 
-typedef char* VA;
-
-struct Block{
+typedef struct {
     VA address;                         //адрес блока
     int size;                           //размер блока
     int offset;                         //сдвиг от начала памяти
-    bool isEmpty;                       //является ли блок пустым
+    char isEmpty;                       //является ли блок пустым
 	struct Block* next;                 //указатель на следующий блок
-};
+} block;
 
-Block * createBlock(VA address, int size, int offset);  //создает новый блок с указанным размером, адресом и сдвигом
+block *createBlock(VA address, int size, int offset);  //создает новый блок с указанным размером, адресом и сдвигом
+
+#endif //MEMORY_BLOCK_H
