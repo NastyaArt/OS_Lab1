@@ -25,7 +25,7 @@ void printMemory();
 int VAToInt (VA ptr);
 int validVA(VA ptr);
 int isFreeVA(VA ptr);
-void addBlock(VA* address, int size, int offset);
+void addBlock(VA address, int size, int offset);
 int findPlace(int size);
 
 #endif //MEMORY_MANAGER_H

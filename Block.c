@@ -1,10 +1,11 @@
 #include "Block.h"
 
-struct block *createBlock(VA* address, int size, int offset)
+struct block *createBlock(VA address, int size, int offset)
 {
     struct block *newBlock;
     newBlock=(struct block *)malloc(sizeof(struct block));
-    memcpy (&newBlock->address, address, strlen(address));
+    newBlock->address=(char *)malloc(strlen(address)*sizeof(char));
+    strcpy(newBlock->address, address);
     newBlock->size=size;
     newBlock->offset=offset;
     newBlock->isEmpty=TRUE;

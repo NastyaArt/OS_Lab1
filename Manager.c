@@ -8,6 +8,7 @@ void printMemory(memManager *manager)
 	for( i=0; i < manager->size; i++)
 		printf("%c", manager->data[i] );
 }
+
 /*
 VA intToVA (int dec)
 {
@@ -16,6 +17,7 @@ VA intToVA (int dec)
     return ptr;
 }
 */
+
 //перевод адреса в целое число
 int VAToInt (VA ptr)
 {
@@ -27,6 +29,7 @@ int VAToInt (VA ptr)
     }
     return dec;
 }
+
 //проверка адреса
 int validVA(VA ptr)
 {
@@ -42,6 +45,7 @@ int validVA(VA ptr)
     }
     return TRUE;
 }
+
 /*
 int isFreeVA(memManager *manager, VA ptr)
 {
@@ -53,13 +57,17 @@ int isFreeVA(memManager *manager, VA ptr)
     return 0;
 }
 */
+
 int isFreeVA(VA ptr)
 {
     struct block *curBlock = Manager->blocks;          //получаем из менеджера ссылку на первый блок
     while (curBlock!=NULL)                      //перебираем все блоки в поиске нужного адреса
     {
-        if (strcmp(curBlock->address, ptr)==0)  //если нашли адрес - то false
+        printf("\nFACK - %s", curBlock->address);
+        if (strcmp(curBlock->address, ptr)==0) { //если нашли такой адрес - то false
+
             return FALSE;
+        }
         curBlock=curBlock->next;
     }
     return TRUE;                                //если не нашли, то true
@@ -86,9 +94,10 @@ int findPlace(int size)
         curOffset=curBlock->offset+curBlock->size;      // переходим к следующему блоку
         curBlock=curBlock->next;
     }
+    return -1;
 }
 
-void addBlock(VA* address, int size, int offset)
+void addBlock(VA address, int size, int offset)
 {
     struct block *newBlock;
     newBlock = createBlock(address, size, offset);
@@ -123,7 +132,7 @@ void addBlock(VA* address, int size, int offset)
         }
         curBlock=curBlock->next;
     }
-
+    return;
 }
 
 /**
@@ -143,14 +152,14 @@ int _malloc (VA* ptr, size_t szBlock)
 {
     if (szBlock>Manager->size)                              //попытка выделить блок больше всей памяти
         return -2;
-    if (isFreeVA(ptr)==FALSE)                               //проверка является ли адрес свободным
+    if (isFreeVA(*ptr)==FALSE)                               //проверка является ли адрес свободным
         return -1;
 
     int offset;
     offset=findPlace(szBlock);
     if (offset>=0)
-
-    addBlock(ptr, szBlock, offset);            //создаем блок в offset
+        addBlock(*ptr, szBlock, offset);            //создаем блок в offset
+    else return 1;
    // проверка, есть ли место
     //если нет - сжатие
     //если опять нет - ошибка, памяти не хватает

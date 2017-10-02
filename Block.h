@@ -17,6 +17,6 @@ struct block{
 	struct block *next;                 //указатель на следующий блок
 };
 
-struct block *createBlock(VA* address, int size, int offset);  //создает новый блок с указанным размером, адресом и сдвигом
+struct block *createBlock(VA address, int size, int offset);  //создает новый блок с указанным размером, адресом и сдвигом
 
 #endif //MEMORY_BLOCK_H
