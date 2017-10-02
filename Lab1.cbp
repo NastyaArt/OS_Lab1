@@ -31,11 +31,17 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="Block.cpp" />
+		<Unit filename="Block.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="Block.h" />
-		<Unit filename="Manager.cpp" />
+		<Unit filename="Manager.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="Manager.h" />
-		<Unit filename="main.cpp" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="mmemory.h" />
 		<Extensions>
 			<code_completion />

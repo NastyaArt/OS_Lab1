@@ -9,11 +9,13 @@
 #include "mmemory.h"
 
 #define MAX_MEMORY_SIZE 256            //максимальный размер участка памяти
+#define TRUE 1
+#define FALSE 0
 
 typedef struct{
     int size;
     char* data;
-    block *blocks;
+    struct block *blocks;
 } memManager;
 
 memManager *Manager;
@@ -21,9 +23,9 @@ memManager *Manager;
 void printMemory();
 //VA intToVA (int dec);
 int VAToInt (VA ptr);
-int verifVA(VA ptr);
-int isFreeVA(memManager *manager, VA ptr);
-int findAdress(VA ptr);
-int findPlace(memManager *manager, int size);
+int validVA(VA ptr);
+int isFreeVA(VA ptr);
+void addBlock(VA* address, int size, int offset);
+int findPlace(int size);
 
 #endif //MEMORY_MANAGER_H
