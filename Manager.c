@@ -63,11 +63,8 @@ int isFreeVA(VA ptr)
     struct block *curBlock = Manager->blocks;          //получаем из менеджера ссылку на первый блок
     while (curBlock!=NULL)                      //перебираем все блоки в поиске нужного адреса
     {
-        printf("\nFACK - %s", curBlock->address);
-        if (strcmp(curBlock->address, ptr)==0) { //если нашли такой адрес - то false
-
+        if (strcmp(curBlock->address, ptr)==0) //если нашли такой адрес - то false
             return FALSE;
-        }
         curBlock=curBlock->next;
     }
     return TRUE;                                //если не нашли, то true
@@ -152,7 +149,7 @@ int _malloc (VA* ptr, size_t szBlock)
 {
     if (szBlock>Manager->size)                              //попытка выделить блок больше всей памяти
         return -2;
-    if (isFreeVA(*ptr)==FALSE)                               //проверка является ли адрес свободным
+    if (validVA(*ptr)==FALSE || isFreeVA(*ptr)==FALSE )                               //проверка является ли адрес свободным
         return -1;
 
     int offset;

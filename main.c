@@ -7,33 +7,25 @@
 int main()
 {
     int v, add, findAdr;
-    _init(20);
-    VA ptr="00000010";
-    VA ptr2="00000010";
+    _init(60);
+    VA ptr="00000001";
+    VA ptr1="00000010";
+    VA ptr2="00000011";
 
-    v=validVA(ptr);
-    if (v==1)
-        printf("\nGood address");
-    else
-        printf("\nBed address");
-
-    findAdr=isFreeVA(ptr);
-    if (findAdr==0)
-        printf("\nNo free address");
-    else
-        printf("\nAddress is free");
-
-    add=_malloc(&ptr, 10);
+    add =_malloc(&ptr, 10);
     if (add==0)
         printf("\nSuccessful additing");
     else
-        printf("\nError adding");
-
-     findAdr=isFreeVA(ptr);
-     if (findAdr==0)
-        printf("\nNo free address");
+        printf("\nError adding - %d", add);
+    add =_malloc(&ptr1, 20);
+    if (add==0)
+        printf("\nSuccessful additing");
     else
-        printf("\nAddress is free");
-
+        printf("\nError adding - %d", add);
+    add =_malloc(&ptr2, 30);
+    if (add==0)
+        printf("\nSuccessful additing");
+    else
+        printf("\nError adding - %d", add);
     return 0;
 }
