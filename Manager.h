@@ -26,6 +26,8 @@ int VAToInt (VA ptr);
 int validVA(VA ptr);
 int isFreeVA(VA ptr);
 void addBlock(VA address, int size, int offset);
+void delBlock(struct block *findBlock);
+struct block *findBlockByVA(VA ptr);
 int findPlace(int size);
 
 #endif //MEMORY_MANAGER_H

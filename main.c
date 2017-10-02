@@ -6,7 +6,7 @@
 
 int main()
 {
-    int v, add, findAdr;
+    int add, free;
     _init(60);
     VA ptr="00000001";
     VA ptr1="00000010";
@@ -27,5 +27,17 @@ int main()
         printf("\nSuccessful additing");
     else
         printf("\nError adding - %d", add);
+    free=_free(ptr);
+    if (free==0)
+        printf("\nSuccessful delete");
+    else
+        printf("\nError delete - %d", free);
+/*
+    add =_malloc(&ptr, 10);
+    if (add==0)
+        printf("\nSuccessful additing");
+    else
+        printf("\nError adding - %d", add);
+*/
     return 0;
 }

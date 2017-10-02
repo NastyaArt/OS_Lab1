@@ -132,6 +132,40 @@ void addBlock(VA address, int size, int offset)
     return;
 }
 
+void delBlock(struct block * findBlock)
+{
+	if (Manager->blocks==findBlock)
+	{
+        Manager->blocks=findBlock->next;
+        return;
+	}
+    struct block* firstBlock = Manager->blocks;
+	while(firstBlock->next != NULL)
+	{
+	    if (firstBlock->next == findBlock)
+	    {
+	        firstBlock->next = findBlock->next;
+	        return;
+	    }
+		firstBlock = firstBlock->next;
+	}
+
+   //затирание нулей в Manager->data
+}
+
+struct block *findBlockByVA(VA ptr)
+{
+    struct block *curBlock = Manager->blocks;          //получаем из менеджера ссылку на первый блок
+    while (curBlock!=NULL)                      //перебираем все блоки в поиске нужного блока
+    {
+        if (strcmp(curBlock->address, ptr)==0) //если нашли его, то возвращаем
+            return curBlock;
+        curBlock=curBlock->next;
+    }
+    return NULL;
+
+}
+
 /**
  	@func	_malloc
  	@brief	Выделяет блок памяти определенного размера
@@ -153,20 +187,29 @@ int _malloc (VA* ptr, size_t szBlock)
         return -1;
 
     int offset;
-    offset=findPlace(szBlock);
+    offset=findPlace(szBlock);                      // проверка, есть ли место
     if (offset>=0)
         addBlock(*ptr, szBlock, offset);            //создаем блок в offset
     else return 1;
-   // проверка, есть ли место
+
     //если нет - сжатие
     //если опять нет - ошибка, памяти не хватает
-    //если есть - генирация адреса
-   // createBlock
-   // добавление нового блока в связный список
+
 
     return 0;
 }
 
+/**
+ 	@func	_free
+ 	@brief	Удаление блока памяти
+
+	@param	[in] ptr		адресс блока
+
+	@return	код ошибки
+	@retval	0	успешное выполнение
+	@retval	-1	неверные параметры
+	@retval	1	неизвестная ошибка
+ **/
 int _free (VA ptr)
 {
     //поиск блока по адресу
@@ -174,8 +217,17 @@ int _free (VA ptr)
     //освобождение данных, занятых блоком в data (затираем нулями)
     //удаление блока из списка
     //free сам блок
-    return 0;
 
+    if (validVA(ptr)==FALSE)                           //проверка является ли адрес корректным
+        return -1;
+
+    struct block *curBlock;
+    curBlock=findBlockByVA(ptr);
+    if (curBlock==NULL)
+        return -1;
+    delBlock(curBlock);
+    free(curBlock);
+    return 0;
 }
 
 int _read (VA ptr, void* pBuffer, size_t szBuffer)
