@@ -1,22 +1,13 @@
 #include "manager.h"
 
 //Вывод памяти (для отладки)
-void printMemory(memManager *manager)
+void printMemory()
 {
     int i;
 	printf( "\nMemory:\n" );
-	for( i=0; i < manager->size; i++)
-		printf("%c", manager->data[i] );
+	for( i=0; i < Manager->size; i++)
+		printf("%c", Manager->data[i] );
 }
-
-/*
-VA intToVA (int dec)
-{
-    VA ptr;
-    //конвертация адреса
-    return ptr;
-}
-*/
 
 //перевод адреса в целое число
 int VAToInt (VA ptr)
@@ -46,18 +37,7 @@ int validVA(VA ptr)
     return TRUE;
 }
 
-/*
-int isFreeVA(memManager *manager, VA ptr)
-{
-
-    //получаем из менеджера ссылку на первый блок
-    //перебираем все блоки в поиске нужного адреса
-    //если не нашли, то true
-    //иначе false
-    return 0;
-}
-*/
-
+//проверка,является ли адрес свободным
 int isFreeVA(VA ptr)
 {
     struct block *curBlock = Manager->blocks;          //получаем из менеджера ссылку на первый блок
@@ -94,7 +74,8 @@ int findPlace(int size)
     return -1;
 }
 
-void addBlock(VA address, int size, int offset)
+//добавлениие блока в память
+int addBlock(VA address, int size, int offset)
 {
     struct block *newBlock;
     newBlock = createBlock(address, size, offset);
@@ -102,7 +83,7 @@ void addBlock(VA address, int size, int offset)
     if (Manager->blocks==NULL)
     {
         Manager->blocks=newBlock;
-        return;
+        return TRUE;
     }
     struct block *curBlock = Manager->blocks;
     while (curBlock!=NULL)
@@ -112,32 +93,32 @@ void addBlock(VA address, int size, int offset)
         {
             Manager->blocks=newBlock;
             newBlock->next=curBlock;
-            return;
+            return TRUE;
         }
         //случай, если блок последний
         if (curBlock->next==NULL)
         {
             curBlock->next=newBlock;
-            return;
+            return TRUE;
         }
         //если блок будет находиться между двумя блоками
         if (curBlock->offset < newBlock->offset && curBlock->next->offset > newBlock->offset)
         {
             newBlock->next=curBlock->next;
             curBlock->next=newBlock;
-            return;
+            return TRUE;
         }
         curBlock=curBlock->next;
     }
-    return;
+    return FALSE;
 }
 
-void delBlock(struct block * findBlock)
+int delBlock(struct block * findBlock)
 {
 	if (Manager->blocks==findBlock)
 	{
         Manager->blocks=findBlock->next;
-        return;
+        return TRUE;
 	}
     struct block* firstBlock = Manager->blocks;
 	while(firstBlock->next != NULL)
@@ -145,11 +126,11 @@ void delBlock(struct block * findBlock)
 	    if (firstBlock->next == findBlock)
 	    {
 	        firstBlock->next = findBlock->next;
-	        return;
+	        return TRUE;
 	    }
 		firstBlock = firstBlock->next;
 	}
-
+    return FALSE;
    //затирание нулей в Manager->data
 }
 
@@ -186,12 +167,14 @@ int _malloc (VA* ptr, size_t szBlock)
     if (validVA(*ptr)==FALSE || isFreeVA(*ptr)==FALSE )                               //проверка является ли адрес свободным
         return -1;
 
-    int offset;
+    int offset, add;
     offset=findPlace(szBlock);                      // проверка, есть ли место
     if (offset>=0)
-        addBlock(*ptr, szBlock, offset);            //создаем блок в offset
-    else return 1;
-
+        add=addBlock(*ptr, szBlock, offset);            //создаем блок в offset
+    else
+        return 1;
+    if (add!=TRUE)
+        return 1;
     //если нет - сжатие
     //если опять нет - ошибка, памяти не хватает
 
@@ -212,40 +195,99 @@ int _malloc (VA* ptr, size_t szBlock)
  **/
 int _free (VA ptr)
 {
-    //поиск блока по адресу
-    //если нашли:
+
     //освобождение данных, занятых блоком в data (затираем нулями)
-    //удаление блока из списка
-    //free сам блок
+
 
     if (validVA(ptr)==FALSE)                           //проверка является ли адрес корректным
         return -1;
 
     struct block *curBlock;
-    curBlock=findBlockByVA(ptr);
+    curBlock=findBlockByVA(ptr);                        //поиск блока по адресу
     if (curBlock==NULL)
         return -1;
-    delBlock(curBlock);
-    free(curBlock);
+    int del;
+    del=delBlock(curBlock);                             //удаление блока из списка
+    if (del!=TRUE)
+        return 1;
+    free(curBlock);                                     //free сам блок
     return 0;
 }
 
+/**
+ 	@func	_read
+ 	@brief	Чтение информации из блока памяти
+
+	@param	[in] ptr		адресс блока
+	@param	[in] pBuffer	адресс буфера куда копируется инфомация
+	@param	[in] szBuffer	размер буфера
+
+	@return	код ошибки
+	@retval	0	успешное выполнение
+	@retval	-1	неверные параметры
+	@retval	-2	доступ за пределы блока
+	@retval	1	неизвестная ошибка
+ **/
 int _read (VA ptr, void* pBuffer, size_t szBuffer)
 {
     //поиск блока по адресу
     //если нашли:
     //проверка размеров
     //считываем данные в буфер pBuffer=data
+    if (validVA(ptr)==FALSE || szBuffer<=0)             //проверка является ли адрес и размер буфера корректными
+        return -1;
+    struct block *curBlock;
+    curBlock=findBlockByVA(ptr);                        //поиск блока по адресу
+    if (curBlock==NULL)
+        return -1;
+    if (curBlock->size>szBuffer)                        //проверка размеров
+        return -2;
+    int i, j;
+    char* str=pBuffer;
+    printf("\nString - %s", str);
+    for (i = curBlock->offset, j=0; i<curBlock->offset+curBlock->size, j<strlen(str); i++, j++)     //записываем данные в Manager->data из pBuffer
+    {
+        str[j]=Manager->data[i];
+        printf("\nAdd cifra - %c", str[j]);
+    }
+   // pBuffer=str;
+   // memcpy(pBuffer, str, szBuffer);
+    printf("\nBuffer inside - %s", str);
     return 0;
 }
 
+/**
+ 	@func	_write
+ 	@brief	Запись информации в блок памяти
+
+	@param	[in] ptr		адресс блока
+	@param	[in] pBuffer	адресс буфера куда копируется инфомация
+	@param	[in] szBuffer	размер буфера
+
+	@return	код ошибки
+	@retval	0	успешное выполнение
+	@retval	-1	неверные параметры
+	@retval	-2	доступ за пределы блока
+	@retval	1	неизвестная ошибка
+ **/
 int _write (VA ptr, void* pBuffer, size_t szBuffer)
 {
-    //поиск блока по адресу
-    //если нашли:
-    //проверка размеров
-    //записываем данные в Manager->data из pBuffer
-    //и устанавливаем isEmpty=false
+    if (validVA(ptr)==FALSE || szBuffer<=0)             //проверка является ли адрес и размер буфера корректными
+        return -1;
+    struct block *curBlock;
+    curBlock=findBlockByVA(ptr);                        //поиск блока по адресу
+    if (curBlock==NULL)
+        return -1;
+    if (curBlock->size<szBuffer || strlen(pBuffer)>curBlock->size)           //проверка размеров
+        return -2;
+    int i, j;
+    char* str=pBuffer;
+    printf("\nString - %s", str);
+    for (i = curBlock->offset, j=0; i<curBlock->offset+curBlock->size, j<strlen(str); i++, j++)     //записываем данные в Manager->data из pBuffer
+    {
+        Manager->data[i]=str[j];
+    }
+    curBlock->isEmpty=FALSE;                    //и устанавливаем isEmpty=false
     return 0;
 }
 
@@ -274,6 +316,6 @@ int _init (int sizeMemory)
     Manager->size = sizeMemory;
     memset(Manager->data, '0', Manager->size);
     Manager->blocks = NULL;
-    printMemory(Manager);
+    printMemory();
     return 0;
 }

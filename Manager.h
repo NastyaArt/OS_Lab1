@@ -21,12 +21,11 @@ typedef struct{
 memManager *Manager;
 
 void printMemory();
-//VA intToVA (int dec);
 int VAToInt (VA ptr);
 int validVA(VA ptr);
 int isFreeVA(VA ptr);
-void addBlock(VA address, int size, int offset);
-void delBlock(struct block *findBlock);
+int addBlock(VA address, int size, int offset);
+int delBlock(struct block *findBlock);
 struct block *findBlockByVA(VA ptr);
 int findPlace(int size);
 
