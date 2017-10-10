@@ -10,7 +10,7 @@
 #define FALSE 0
 
 struct block{
-    VA address;                         //адрес блока
+    VA address[ADDRESS_SIZE];                         //адрес блока
     int size;                           //размер блока
     int offset;                         //сдвиг от начала памяти
     char isEmpty;                       //является ли блок пустым

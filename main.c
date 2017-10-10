@@ -7,44 +7,34 @@
 int main()
 {
     int add, free, write, read;
-    _init(60);
+    _init(16);
     VA ptr="00000001";
     VA ptr1="00000010";
     VA ptr2="00000011";
+    VA ptr3="00000100";
 
     add =_malloc(&ptr, 5);
     if (add==0)
         printf("\nSuccessful additing");
     else
         printf("\nError adding - %d", add);
-    add =_malloc(&ptr1, 10);
+    write=_write(ptr, "11111", 5);
+
+    add =_malloc(&ptr1, 5);
     if (add==0)
         printf("\nSuccessful additing");
     else
         printf("\nError adding - %d", add);
+    write=_write(ptr1, "22222", 5);
 
     add =_malloc(&ptr2, 5);
     if (add==0)
         printf("\nSuccessful additing");
     else
         printf("\nError adding - %d", add);
-
-
-    write=_write(ptr, "11111", 5);
-    if (write==0){
-        printf("\nSuccessful writing");
-        printMemory();
-    }
-    else
-        printf("\nError writing - %d", write);
-
     write=_write(ptr2, "33333", 5);
-    if (write==0){
-        printf("\nSuccessful writing");
-        printMemory();
-    }
-    else
-        printf("\nError writing - %d", write);
+
+    printMemory();
 
     free=_free(ptr1);
     if (free==0)
@@ -52,9 +42,38 @@ int main()
     else
         printf("\nError delete - %d", free);
 
-
-    compressionMemory();
     printMemory();
+
+    add =_malloc(&ptr3, 6);
+    if (add==0)
+        printf("\nSuccessful additing");
+    else
+        printf("\nError adding - %d", add);
+    write=_write(ptr3, "444444", 6);
+
+    printMemory();
+
+ /*   write=_write(ptr, "11111", 5);
+    if (write==0){
+        printf("\nSuccessful writing");
+        printMemory();
+    }
+    else
+        printf("\nError writing - %d", write);
+/*   write=_write(ptr2, "33333", 5);
+    if (write==0){
+        printf("\nSuccessful writing");
+        printMemory();
+    }
+    else
+        printf("\nError writing - %d", write);
+
+  */
+
+
+
+   // compressionMemory();
+
 /*////////////// Удаление блока рабочее  ///////////////////
     free=_free(ptr1);
     if (free==0){

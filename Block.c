@@ -4,7 +4,7 @@ struct block *createBlock(VA address, int size, int offset)
 {
     struct block *newBlock;
     newBlock=(struct block *)malloc(sizeof(struct block));
-    newBlock->address=(char *)malloc(strlen(address)*sizeof(char));
+   // newBlock->address=(char *)calloc(strlen(address),sizeof(char));
     strcpy(newBlock->address, address);
     newBlock->size=size;
     newBlock->offset=offset;

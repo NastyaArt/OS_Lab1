@@ -1,6 +1,6 @@
 #include "manager.h"
 
-//Вывод памяти (для отладки)
+//вывод памяти (для отладки)
 void printMemory()
 {
     int i;
@@ -78,31 +78,33 @@ int findPlace(int size)
 int addBlock(VA address, int size, int offset)
 {
     struct block *newBlock;
+
     newBlock = createBlock(address, size, offset);
-    //случай, если новый блок первый и единственный
-    if (Manager->blocks==NULL)
+
+    if (Manager->blocks==NULL)                          //случай, если новый блок первый и единственный
     {
         Manager->blocks=newBlock;
+
         return TRUE;
     }
     struct block *curBlock = Manager->blocks;
+
     while (curBlock!=NULL)
     {
-        //случай, если новый блок добавляем в начало
-        if (newBlock->offset==0)
+        if (newBlock->offset==0)                        //случай, если новый блок добавляем в начало
         {
             Manager->blocks=newBlock;
             newBlock->next=curBlock;
             return TRUE;
         }
-        //случай, если блок последний
-        if (curBlock->next==NULL)
+
+        if (curBlock->next==NULL)                       //случай, если блок последний
         {
             curBlock->next=newBlock;
             return TRUE;
         }
-        //если блок будет находиться между двумя блоками
-        if (curBlock->offset < newBlock->offset && curBlock->next->offset > newBlock->offset)
+
+        if (curBlock->offset+size == newBlock->offset /*&& curBlock->next->offset > newBlock->offset+size*/)  //если блок будет находиться между двумя блоками
         {
             newBlock->next=curBlock->next;
             curBlock->next=newBlock;
@@ -137,10 +139,10 @@ int delBlock(struct block * findBlock)
 //поиск блока по адресу
 struct block *findBlockByVA(VA ptr)
 {
-    struct block *curBlock = Manager->blocks;          //получаем из менеджера ссылку на первый блок
-    while (curBlock!=NULL)                      //перебираем все блоки в поиске нужного блока
+    struct block *curBlock = Manager->blocks;           //получаем из менеджера ссылку на первый блок
+    while (curBlock!=NULL)                              //перебираем все блоки в поиске нужного блока
     {
-        if (strcmp(curBlock->address, ptr)==0) //если нашли его, то возвращаем
+        if (strcmp(curBlock->address, ptr)==0)          //если нашли его, то возвращаем
             return curBlock;
         curBlock=curBlock->next;
     }
@@ -151,12 +153,13 @@ struct block *findBlockByVA(VA ptr)
 //сжатие памяти
 void compressionMemory()
 {
+    printf("\nCompression Memory...");
     struct block *curBlock = Manager->blocks;          //получаем из менеджера ссылку на первый блок
     int curOffset = 0;
 
     while (curBlock!=NULL)                              //перебираем все блоки в поиске пустых мест
     {
-        if (curBlock->offset>curOffset){                //поиск места между блоками
+        if (curBlock->offset>curOffset){                //если между блоками есть пустое место
             moveData(curBlock->offset, curOffset, curBlock->size);
 
             curBlock->offset=curOffset;
@@ -169,11 +172,10 @@ void compressionMemory()
             curOffset+=curBlock->size;
             curBlock=curBlock->next;
         }
-
-
     }
 }
 
+//перемещение данных в памяти
 void moveData(int curOffset, int newOffset, int size)
 {
     char* str=(char*)malloc(size);
@@ -186,7 +188,7 @@ void moveData(int curOffset, int newOffset, int size)
         Manager->data[i]='0';
     }
 
-    for (i = newOffset, j=0; i<newOffset+size && j<size; i++, j++)     //записываем данные в Manager->data из pBuffer
+    for (i = newOffset, j=0; i<newOffset+size && j<size; i++, j++)     //записываем данные в Manager->data из временного массива
     {
         Manager->data[i]=str[j];
     }
@@ -209,22 +211,24 @@ int _malloc (VA* ptr, size_t szBlock)
 {
     if (szBlock>Manager->size)                              //попытка выделить блок больше всей памяти
         return -2;
-    if (validVA(*ptr)==FALSE || isFreeVA(*ptr)==FALSE )                               //проверка является ли адрес свободным
+    if (validVA(*ptr)==FALSE || isFreeVA(*ptr)==FALSE )     //проверка является ли адрес свободным
         return -1;
 
     int offset, add;
-    offset=findPlace(szBlock);                      // проверка, есть ли место
+    offset=findPlace(szBlock);                              // проверка, есть ли место
     if (offset>=0)
-        add=addBlock(*ptr, szBlock, offset);            //создаем блок в offset
-    else
-        return 1;
-    if (add!=TRUE)
-        return 1;
-    //если нет - сжатие
-    //если опять нет - ошибка, памяти не хватает
-
-
-    return 0;
+        add=addBlock(*ptr, szBlock, offset);                //создаем блок в offset
+    else {
+        compressionMemory();                                //произвдоим сжатие памяти
+        offset=findPlace(szBlock);                          //снова проверка, есть ли место
+        if (offset>=0)
+            add=addBlock(*ptr, szBlock, offset);            //создаем блок в offset
+        else
+            return -2;                                       //иначе места нет
+    }
+    if (add==TRUE)
+        return 0;
+    else return 1;
 }
 
 /**
