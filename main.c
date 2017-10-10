@@ -23,13 +23,35 @@ int main()
     else
         printf("\nError adding - %d", add);
 
-    write=_write(ptr1, "1234567891", 10);
+    add =_malloc(&ptr2, 5);
+    if (add==0)
+        printf("\nSuccessful additing");
+    else
+        printf("\nError adding - %d", add);
+
+
+    write=_write(ptr, "11111", 5);
     if (write==0){
         printf("\nSuccessful writing");
         printMemory();
     }
     else
         printf("\nError writing - %d", write);
+
+    write=_write(ptr2, "33333", 5);
+    if (write==0){
+        printf("\nSuccessful writing");
+        printMemory();
+    }
+    else
+        printf("\nError writing - %d", write);
+
+    free=_free(ptr1);
+    if (free==0)
+        printf("\nSuccessful delete");
+    else
+        printf("\nError delete - %d", free);
+
 
     compressionMemory();
     printMemory();

@@ -165,7 +165,11 @@ void compressionMemory()
             curBlock=curBlock->next;
         }
         else
+        {
+            curOffset+=curBlock->size;
             curBlock=curBlock->next;
+        }
+
 
     }
 }
