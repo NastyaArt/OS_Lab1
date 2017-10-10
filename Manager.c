@@ -230,7 +230,6 @@ int _free (VA ptr)
  **/
 int _read (VA ptr, void* pBuffer, size_t szBuffer)
 {
-    printf("\nszBuffer - %d", szBuffer);
     //поиск блока по адресу
     //если нашли:
     //проверка размеров
@@ -244,25 +243,15 @@ int _read (VA ptr, void* pBuffer, size_t szBuffer)
     if (curBlock->size>szBuffer)                        //проверка размеров
         return -2;
     int i, j;
-    //char str[szBuffer];//[strlen(pBuffer)];
-    // str=(char *)malloc(szBuffer*sizeof(char));
-    char* str=pBuffer;//="qwertyuiop";
-   // memset(str, '1', szBuffer);
-    printf("\nString - %s", str);
-    //memset(str, '1', szBuffer);
- /*   for( i=0; i < szBuffer; i++){
-        str[i]='2';
-		printf("\nCifra - %c", str[i] );
-    }*/
+    char* str=pBuffer;
+
     for (i = curBlock->offset, j=0; i<curBlock->offset+curBlock->size, j<szBuffer; i++, j++)     //записываем данные в Manager->data из pBuffer
     {
         str[j]=Manager->data[i];
-        printf("\nAdd cifra - %c", str[j]);
     }
-   //
-    //pBuffer=str;
+
     memcpy(pBuffer, str, szBuffer);
-    printf("\nBuffer inside - %s", str);
+
     return 0;
 }
 
