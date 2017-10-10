@@ -31,6 +31,16 @@ int main()
     else
         printf("\nError writing - %d", write);
 
+    free=_free(ptr1);
+    if (free==0){
+        printf("\nSuccessful delete");
+        printMemory();
+    }
+    else
+        printf("\nError delete - %d", free);
+
+
+/*////////////// —читывание рабочее  ///////////////////
     const int sizeBuf=10;
     char* ptrBuf=(char*)malloc(sizeBuf);
 
@@ -44,6 +54,8 @@ int main()
     else
         printf("\nError reading - %d", read);
     printf("\nBuffer - %s", ptrBuf);
+*/
+
   /*  add =_malloc(&ptr2, 30);
     if (add==0)
         printf("\nSuccessful additing");

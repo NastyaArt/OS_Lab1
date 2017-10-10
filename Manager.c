@@ -196,9 +196,6 @@ int _malloc (VA* ptr, size_t szBlock)
 int _free (VA ptr)
 {
 
-    //освобождение данных, занятых блоком в data (затираем нулями)
-
-
     if (validVA(ptr)==FALSE)                           //проверка является ли адрес корректным
         return -1;
 
@@ -210,6 +207,11 @@ int _free (VA ptr)
     del=delBlock(curBlock);                             //удаление блока из списка
     if (del!=TRUE)
         return 1;
+    int i;
+    for (i = curBlock->offset; i<curBlock->offset+curBlock->size; i++)     //обнуляем данные в Manager->data
+    {
+        Manager->data[i]='0';
+    }
     free(curBlock);                                     //free сам блок
     return 0;
 }
@@ -243,14 +245,14 @@ int _read (VA ptr, void* pBuffer, size_t szBuffer)
     if (curBlock->size>szBuffer)                        //проверка размеров
         return -2;
     int i, j;
-    char* str=pBuffer;
+    char* str=(char*)malloc(szBuffer);
 
-    for (i = curBlock->offset, j=0; i<curBlock->offset+curBlock->size, j<szBuffer; i++, j++)     //записываем данные в Manager->data из pBuffer
+    for (i = curBlock->offset, j=0; i<curBlock->offset+curBlock->size, j<szBuffer; i++, j++)     //записываем данные в pBuffer из Manager->data
     {
         str[j]=Manager->data[i];
     }
 
-    memcpy(pBuffer, str, szBuffer);
+    memcpy(pBuffer, str, szBuffer);                     //передача данных в буфер
 
     return 0;
 }

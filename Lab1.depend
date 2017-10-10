@@ -56,13 +56,13 @@
 1506977338 source:d:\nastya\codeblocks\lab1\block.c
 	"Block.h"
 
-1507649482 source:d:\nastya\codeblocks\lab1\main.c
+1507650175 source:d:\nastya\codeblocks\lab1\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"manager.h"
 
-1507649229 source:d:\nastya\codeblocks\lab1\manager.c
+1507650052 source:d:\nastya\codeblocks\lab1\manager.c
 	"manager.h"
 
 1506977338 source:f:\ня\lab1\block.c
