@@ -113,6 +113,7 @@ int addBlock(VA address, int size, int offset)
     return FALSE;
 }
 
+//удаление блока из списка
 int delBlock(struct block * findBlock)
 {
 	if (Manager->blocks==findBlock)
@@ -131,9 +132,9 @@ int delBlock(struct block * findBlock)
 		firstBlock = firstBlock->next;
 	}
     return FALSE;
-   //затирание нулей в Manager->data
 }
 
+//поиск блока по адресу
 struct block *findBlockByVA(VA ptr)
 {
     struct block *curBlock = Manager->blocks;          //получаем из менеджера ссылку на первый блок
@@ -145,6 +146,46 @@ struct block *findBlockByVA(VA ptr)
     }
     return NULL;
 
+}
+
+//сжатие памяти
+void compressionMemory()
+{
+    struct block *curBlock = Manager->blocks;          //получаем из менеджера ссылку на первый блок
+    int curOffset = 0;
+
+    while (curBlock!=NULL)                              //перебираем все блоки в поиске пустых мест
+    {
+        if (curBlock->offset>curOffset){                //поиск места между блоками
+            moveData(curBlock->offset, curOffset, curBlock->size);
+
+            curBlock->offset=curOffset;
+            curOffset+=curBlock->size;
+
+            curBlock=curBlock->next;
+        }
+        else
+            curBlock=curBlock->next;
+
+    }
+}
+
+void moveData(int curOffset, int newOffset, int size)
+{
+    char* str=(char*)malloc(size);
+
+    int i, j;
+
+    for (i = curOffset, j=0; i<curOffset+size && j<size; i++, j++)     //записываем данные во временный массив
+    {
+        str[j]=Manager->data[i];
+        Manager->data[i]='0';
+    }
+
+    for (i = newOffset, j=0; i<newOffset+size && j<size; i++, j++)     //записываем данные в Manager->data из pBuffer
+    {
+        Manager->data[i]=str[j];
+    }
 }
 
 /**
@@ -247,7 +288,7 @@ int _read (VA ptr, void* pBuffer, size_t szBuffer)
     int i, j;
     char* str=(char*)malloc(szBuffer);
 
-    for (i = curBlock->offset, j=0; i<curBlock->offset+curBlock->size, j<szBuffer; i++, j++)     //записываем данные в pBuffer из Manager->data
+    for (i = curBlock->offset, j=0; i<curBlock->offset+curBlock->size && j<szBuffer; i++, j++)     //записываем данные в pBuffer из Manager->data
     {
         str[j]=Manager->data[i];
     }
@@ -284,7 +325,7 @@ int _write (VA ptr, void* pBuffer, size_t szBuffer)
     int i, j;
     char* str=pBuffer;
     printf("\nString - %s", str);
-    for (i = curBlock->offset, j=0; i<curBlock->offset+curBlock->size, j<strlen(str); i++, j++)     //записываем данные в Manager->data из pBuffer
+    for (i = curBlock->offset, j=0; i<(curBlock->offset+curBlock->size) && j<strlen(str); i++, j++)     //записываем данные в Manager->data из pBuffer
     {
         Manager->data[i]=str[j];
     }

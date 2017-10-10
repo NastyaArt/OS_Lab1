@@ -31,6 +31,9 @@ int main()
     else
         printf("\nError writing - %d", write);
 
+    compressionMemory();
+    printMemory();
+/*////////////// ”даление блока рабочее  ///////////////////
     free=_free(ptr1);
     if (free==0){
         printf("\nSuccessful delete");
@@ -38,7 +41,7 @@ int main()
     }
     else
         printf("\nError delete - %d", free);
-
+*/
 
 /*////////////// —читывание рабочее  ///////////////////
     const int sizeBuf=10;

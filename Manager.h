@@ -28,5 +28,7 @@ int addBlock(VA address, int size, int offset);
 int delBlock(struct block *findBlock);
 struct block *findBlockByVA(VA ptr);
 int findPlace(int size);
+void compressionMemory();
+void moveData(int curOffset, int newOffset, int size);
 
 #endif //MEMORY_MANAGER_H
