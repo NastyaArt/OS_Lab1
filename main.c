@@ -31,8 +31,17 @@ int main()
     else
         printf("\nError writing - %d", write);
 
-    int sizeBuf=10;
-    char *ptrBuf="0000000000";// = (char*)calloc(sizeBuf, sizeof(char));
+    const int sizeBuf=10;
+    //char* ptrBuf = (char*) malloc( sizeof(char) * sizeBuf);
+    char ptrBuf[sizeBuf];
+    printf("\nBuffer - %s", ptrBuf);
+    strcpy(ptrBuf, "0000000000");
+    //memset(ptrBuf, '0', sizeBuf);
+    printf("\nBuffer - %s", ptrBuf);
+    //char *ptrBuf = (char*)calloc(sizeBuf, sizeof(char));
+   /* char *ptrBuf=(char *)malloc(sizeBuf*sizeof(char));//"0000000000";// = (char*)calloc(sizeBuf, sizeof(char));
+    memset(ptrBuf, "0", sizeBuf);
+   */
     read=_read(ptr1, ptrBuf, sizeBuf);
     if (read==0)
         printf("\nSuccessful reading");

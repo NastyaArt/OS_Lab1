@@ -33,7 +33,7 @@
 1506826224 source:d:\nastya\codeblocks\lab1\block.cpp
 	"Block.h"
 
-1506942123 d:\nastya\codeblocks\lab1\block.h
+1506942124 d:\nastya\codeblocks\lab1\block.h
 	<stdio.h>
 	<stdlib.h>
 	<memory.h>
@@ -53,7 +53,7 @@
 1506828929 source:d:\nastya\codeblocks\lab1\manager.cpp
 	"manager.h"
 
-1506977337 source:d:\nastya\codeblocks\lab1\block.c
+1506977338 source:d:\nastya\codeblocks\lab1\block.c
 	"Block.h"
 
 1506981200 source:d:\nastya\codeblocks\lab1\main.c
