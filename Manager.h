@@ -21,7 +21,7 @@ typedef struct{
 memManager *Manager;
 
 void printMemory();
-int VAToInt (VA ptr);
+//int VAToInt (VA ptr);
 int validVA(VA ptr);
 int isFreeVA(VA ptr);
 int addBlock(VA address, int size, int offset);

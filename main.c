@@ -3,10 +3,16 @@
 #include <string.h>
 
 #include "manager.h"
+#include "tests.h"
 
 int main()
 {
-    int add, free, write, read;
+    init_test();
+
+    malloc_test();
+
+    free_test();
+  /*  int add, free, write, read;
     _init(16);
     VA ptr="00000001";
     VA ptr1="00000010";

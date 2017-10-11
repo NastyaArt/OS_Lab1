@@ -8,7 +8,7 @@ void printMemory()
 	for( i=0; i < Manager->size; i++)
 		printf("%c", Manager->data[i] );
 }
-
+/*
 //перевод адреса в целое число
 int VAToInt (VA ptr)
 {
@@ -18,9 +18,10 @@ int VAToInt (VA ptr)
         int num = ptr[i] - '0';
         dec += num * pow(2, exp);
     }
+    printf("\nNumber - %d", dec);
     return dec;
 }
-
+*/
 //проверка адреса
 int validVA(VA ptr)
 {
@@ -31,9 +32,10 @@ int validVA(VA ptr)
         if (ptr[i] != '0' && ptr[i] != '1')
             return FALSE;
     }
-    if (VAToInt(ptr) > Manager->size) {     //адресов строго как размер менеджера, поэтому превышать размер нельз€
+/*    if (VAToInt(ptr) >= MAX_MEMORY_SIZE) {     //адресов строго как размер менеджера, поэтому превышать размер нельз€
         return FALSE;
     }
+    */
     return TRUE;
 }
 
@@ -153,7 +155,7 @@ struct block *findBlockByVA(VA ptr)
 //сжатие пам€ти
 void compressionMemory()
 {
-    printf("\nCompression Memory...");
+  //  printf("\nCompression Memory...");
     struct block *curBlock = Manager->blocks;          //получаем из менеджера ссылку на первый блок
     int curOffset = 0;
 
@@ -211,7 +213,9 @@ int _malloc (VA* ptr, size_t szBlock)
 {
     if (szBlock>Manager->size)                              //попытка выделить блок больше всей пам€ти
         return -2;
-    if (validVA(*ptr)==FALSE || isFreeVA(*ptr)==FALSE )     //проверка €вл€етс€ ли адрес свободным
+    if (validVA(*ptr)==FALSE)                               //проверка €вл€етс€ ли адрес корректным
+        return -1;
+    if (isFreeVA(*ptr)==FALSE)                              //проверка €вл€етс€ ли адрес свободным
         return -1;
 
     int offset, add;
@@ -281,16 +285,14 @@ int _free (VA ptr)
  **/
 int _read (VA ptr, void* pBuffer, size_t szBuffer)
 {
-    //поиск блока по адресу
-    //если нашли:
-    //проверка размеров
-    //считываем данные в буфер pBuffer=data
     if (validVA(ptr)==FALSE || szBuffer<=0)             //проверка €вл€етс€ ли адрес и размер буфера корректными
         return -1;
     struct block *curBlock;
     curBlock=findBlockByVA(ptr);                        //поиск блока по адресу
     if (curBlock==NULL)
         return -1;
+    if (curBlock->isEmpty!='1')
+        return 1;
     if (curBlock->size>szBuffer)                        //проверка размеров
         return -2;
     int i, j;
@@ -322,7 +324,7 @@ int _read (VA ptr, void* pBuffer, size_t szBuffer)
  **/
 int _write (VA ptr, void* pBuffer, size_t szBuffer)
 {
-    if (validVA(ptr)==FALSE || szBuffer<=0)             //проверка €вл€етс€ ли адрес и размер буфера корректными
+    if (validVA(ptr)==FALSE || strlen(pBuffer)!=szBuffer)             //проверка €вл€етс€ ли адрес и размер буфера корректными
         return -1;
     struct block *curBlock;
     curBlock=findBlockByVA(ptr);                        //поиск блока по адресу
@@ -366,6 +368,6 @@ int _init (int sizeMemory)
     Manager->size = sizeMemory;
     memset(Manager->data, '0', Manager->size);
     Manager->blocks = NULL;
-    printMemory();
+    //printMemory();
     return 0;
 }
