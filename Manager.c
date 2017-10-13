@@ -285,7 +285,7 @@ int _free (VA ptr)
  **/
 int _read (VA ptr, void* pBuffer, size_t szBuffer)
 {
-    if (validVA(ptr)==FALSE || strlen(pBuffer)!=szBuffer)             //проверка является ли адрес и размер буфера корректными
+    if (validVA(ptr)==FALSE || szBuffer<=0)             //проверка является ли адрес и размер буфера корректными
         return -1;
     struct block *curBlock;
     curBlock=findBlockByVA(ptr);                        //поиск блока по адресу
