@@ -12,6 +12,9 @@ int main()
     malloc_test();
 
     free_test();
+
+    write_test();
+
   /*  int add, free, write, read;
     _init(16);
     VA ptr="00000001";

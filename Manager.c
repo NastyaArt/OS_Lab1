@@ -330,11 +330,12 @@ int _write (VA ptr, void* pBuffer, size_t szBuffer)
     curBlock=findBlockByVA(ptr);                        //поиск блока по адресу
     if (curBlock==NULL)
         return -1;
+    if (curBlock->isEmpty==FALSE)                           //если блок уже занят
+        return -1;
     if (curBlock->size<szBuffer || strlen(pBuffer)>curBlock->size)           //проверка размеров
         return -2;
     int i, j;
     char* str=pBuffer;
-    printf("\nString - %s", str);
     for (i = curBlock->offset, j=0; i<(curBlock->offset+curBlock->size) && j<strlen(str); i++, j++)     //записываем данные в Manager->data из pBuffer
     {
         Manager->data[i]=str[j];

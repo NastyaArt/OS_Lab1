@@ -49,7 +49,7 @@ void free_test()
     VA ptr1="000017011";
     VA ptr2="00000001";
     VA ptr3="00000010";
-    VA ptr4="00000010";
+    VA ptr4="00000001";
 
     _malloc(&ptr2, 30);
     _malloc(&ptr3, 20);
@@ -68,8 +68,31 @@ void free_test()
 
 void write_test()
 {
+    _init(15);
 
+    VA ptr="00000000";
+    VA ptr1="000017011";
+    VA ptr2="00000001";
+    VA ptr3="00000010";
+    VA ptr4="00000011";
+    VA ptr5="00000001";
 
+    _malloc(&ptr2, 5);
+    _malloc(&ptr3, 4);
+    _malloc(&ptr4, 3);
+
+    printf("\nWrite tests...\n");
+
+    assert(_write(ptr, "string", 6)==-1);        //несуществующий адрес
+    assert(_write(ptr1, "string", 6)==-1);       //некорректный адрес
+    assert(_write(ptr2, "string", 4)==-1);       //размер буфера не соответствует буферу
+    assert(_write(ptr2, "string", 6)==-2);       //размер буфера больше размера блока
+    assert(_write(ptr2, "first", 5)==0);         //запись информации в блок
+    assert(_write(ptr3, "scnd", 4)==0);          //запись информации в блок
+    assert(_write(ptr4, "trd", 3)==0);           //запись информации в блок
+    assert(_write(ptr5, "newst", 5)==-1);        //попытка записи в уже заполненный блок
+
+    printf("\nWrite tests passed successfully!\n");
 }
 
 void read_test()

@@ -43,6 +43,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="mmemory.h" />
+		<Unit filename="tests.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="tests.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
