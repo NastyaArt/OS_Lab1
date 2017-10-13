@@ -15,6 +15,8 @@ int main()
 
     write_test();
 
+    read_test();
+
   /*  int add, free, write, read;
     _init(16);
     VA ptr="00000001";

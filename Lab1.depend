@@ -56,14 +56,14 @@
 1507736366 source:d:\nastya\codeblocks\lab1\block.c
 	"Block.h"
 
-1507740985 source:d:\nastya\codeblocks\lab1\main.c
+1507889769 source:d:\nastya\codeblocks\lab1\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"manager.h"
 	"tests.h"
 
-1507751195 source:d:\nastya\codeblocks\lab1\manager.c
+1507890807 source:d:\nastya\codeblocks\lab1\manager.c
 	"manager.h"
 
 1506977338 source:f:\ня\lab1\block.c
@@ -97,7 +97,7 @@
 
 1507736463 d:\nastya\codeblocks\lab1\tests.h
 
-1507888095 source:d:\nastya\codeblocks\lab1\tests.c
+1507891713 source:d:\nastya\codeblocks\lab1\tests.c
 	<stdio.h>
 	<assert.h>
 	"tests.h"

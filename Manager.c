@@ -285,16 +285,17 @@ int _free (VA ptr)
  **/
 int _read (VA ptr, void* pBuffer, size_t szBuffer)
 {
-    if (validVA(ptr)==FALSE || szBuffer<=0)             //проверка является ли адрес и размер буфера корректными
+    if (validVA(ptr)==FALSE || strlen(pBuffer)!=szBuffer)             //проверка является ли адрес и размер буфера корректными
         return -1;
     struct block *curBlock;
     curBlock=findBlockByVA(ptr);                        //поиск блока по адресу
     if (curBlock==NULL)
         return -1;
-    if (curBlock->isEmpty!='1')
-        return 1;
     if (curBlock->size>szBuffer)                        //проверка размеров
         return -2;
+    if (curBlock->isEmpty==TRUE)
+        return -1;
+
     int i, j;
     char* str=(char*)malloc(szBuffer);
 

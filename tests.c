@@ -97,6 +97,44 @@ void write_test()
 
 void read_test()
 {
+    _init(15);
+
+    VA ptr="00000000";
+    VA ptr1="000017011";
+    VA ptr2="00000001";
+    VA ptr3="00000010";
+    VA ptr4="00000011";
+
+    _malloc(&ptr2, 5);
+    _malloc(&ptr3, 3);
+    _malloc(&ptr4, 3);
+    _write(ptr2, "first", 5);
+    _write(ptr3, "snd", 3);
+    _write(ptr4, "trd", 3);
+
+    const int szBuf1=5;
+    char* ptrBuf1=calloc(szBuf1, sizeof(char));
+    memset(ptrBuf1, '0', szBuf1);
+
+    const int szBuf2=3;
+    char* ptrBuf2=calloc(szBuf2, sizeof(char));
+    memset(ptrBuf2, '0', szBuf2);
+
+    const int szBuf3=3;
+    char* ptrBuf3=calloc(szBuf3, sizeof(char));
+    memset(ptrBuf3, '0', szBuf3);
+
+    printf("\nRead tests...\n");
+
+    assert(_read(ptr, ptrBuf1, szBuf1)==-1);          //несуществующий адрес
+    assert(_read(ptr1, ptrBuf1, szBuf1)==-1);         //некорректный адрес
+    assert(_read(ptr2, ptrBuf1, szBuf2)==-1);         //размер буфера не соответствует буферу
+    assert(_read(ptr2, ptrBuf2, szBuf2)==-2);         //размер блока больше размера буфера
+    assert(_read(ptr2, ptrBuf1, szBuf1)==0);          //чтение информации из блока
+    assert(_read(ptr3, ptrBuf2, szBuf2)==0);          //чтение информации из блока
+    assert(_read(ptr4, ptrBuf3, szBuf3)==0);          //чтение информации из блока
+
+    printf("\nRead tests passed successfully!\n");
 
 }
 
