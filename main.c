@@ -7,23 +7,19 @@
 
 int main()
 {
- /*   init_test();
-
-    malloc_test();
-
-    free_test();
-
-    write_test();
-
-    read_test();
+ /*   run_init_tests();
+    run_malloc_tests();
+    run_free_tests();
+    run_write_tests();
+    run_read_tests();
 */
  //   custom_test();
 
 
-  //  load_test();
+    load_test();
    // printf("runtime = %f" , clock()/1.0 ); // גנולÿ נאבמעû ןנמדנאללû
 
-   printf("5 = %s" , convertToVA(255) );
+  // printf("5 = %s" , convertToVA(1023) );
 
     return 0;
 }

@@ -40,7 +40,6 @@ void run_malloc_tests()
     malloc_test_5();
 
     printf("\nMalloc tests passed successfully!\n");
-
 }
 
 void malloc_test_1()          //блок больше всей памяти
@@ -73,10 +72,10 @@ void malloc_test_4()          //нехватка памяти
     VA ptr1="00000000";
     VA ptr2="00000001";
     VA ptr3="00000010";
-    _malloc(&ptr1, 40)
-    _malloc(&ptr2, 40)
+    _malloc(&ptr1, 40);
+    _malloc(&ptr2, 40);
 
-    assert(_malloc(&ptr, 40)==-2);
+    assert(_malloc(&ptr3, 40)==-2);
 }
 
 void malloc_test_5()          //адрес уже занят
@@ -84,103 +83,208 @@ void malloc_test_5()          //адрес уже занят
     _init(100);
     VA ptr1="00000000";
     VA ptr2="00000000";
-    _malloc(&ptr1, 40)
+    _malloc(&ptr1, 40);
 
-    assert(_malloc(&ptr2, 60)==-2);
+    assert(_malloc(&ptr2, 60)==-1);
 }
 
 void run_free_tests()
 {
-    _init(100);
-
-    VA ptr="00test00";
-    VA ptr1="000017011";
-    VA ptr2="00000001";
-    VA ptr3="00000010";
-    VA ptr4="00000001";
-
-    _malloc(&ptr2, 30);
-    _malloc(&ptr3, 20);
-
     printf("\nFree tests...\n");
 
-    assert(_free(ptr)==-1);       //некорректный адрес
-    assert(_free(ptr1)==-1);      //некорректный адрес
-    assert(_free(ptr2)==0);       //удаление блока
-    assert(_free(ptr3)==0);       //удаление блока
-    assert(_free(ptr4)==-1);      //такого блока нет
+    free_test_1();
+    free_test_2();
+    free_test_3();
 
     printf("\nFree tests passed successfully!\n");
-
 }
 
-void write_test()
+void free_test_1()          //некорректный адрес
 {
-    _init(15);
-
+    _init(100);
     VA ptr="00000000";
-    VA ptr1="000017011";
-    VA ptr2="00000001";
-    VA ptr3="00000010";
-    VA ptr4="00000011";
-    VA ptr5="00000001";
+    VA ptr1="00test70";
+    _malloc(&ptr, 40);
 
-    _malloc(&ptr2, 5);
-    _malloc(&ptr3, 4);
-    _malloc(&ptr4, 3);
+    assert(_free(ptr1)==-1);
+}
 
+void free_test_2()          //успешное удаление блока
+{
+    _init(100);
+    VA ptr="00000000";
+    _malloc(&ptr, 40);
+
+    assert(_free(ptr)==0);
+}
+
+void free_test_3()          //адрес не указывает ни на один блок
+{
+    _init(100);
+    VA ptr="00000000";
+    VA ptr1="00000001";
+    _malloc(&ptr, 40);
+
+    assert(_free(ptr1)==-1);
+}
+
+void run_write_tests()
+{
     printf("\nWrite tests...\n");
 
-    assert(_write(ptr, "string", 6)==-1);        //несуществующий адрес
-    assert(_write(ptr1, "string", 6)==-1);       //некорректный адрес
-    assert(_write(ptr2, "string", 4)==-1);       //размер буфера не соответствует буферу
-    assert(_write(ptr2, "string", 6)==-2);       //размер буфера больше размера блока
-    assert(_write(ptr2, "first", 5)==0);         //запись информации в блок
-    assert(_write(ptr3, "scnd", 4)==0);          //запись информации в блок
-    assert(_write(ptr4, "trd", 3)==0);           //запись информации в блок
-    assert(_write(ptr5, "newst", 5)==-1);        //попытка записи в уже заполненный блок
+    write_test_1();
+    write_test_2();
+    write_test_3();
+    write_test_4();
+    write_test_5();
+    write_test_6();
 
     printf("\nWrite tests passed successfully!\n");
 }
 
-void read_test()
+void write_test_1()          //некорректный адрес
 {
     _init(15);
-
     VA ptr="00000000";
-    VA ptr1="000017011";
-    VA ptr2="00000001";
-    VA ptr3="00000010";
-    VA ptr4="00000011";
+    VA ptr1="000test70";
+    _malloc(&ptr, 6);
 
-    _malloc(&ptr2, 5);
-    _malloc(&ptr3, 4);
-    _malloc(&ptr4, 3);
-    _write(ptr2, "first", 5);
-    _write(ptr3, "scnd", 4);
-    _write(ptr4, "trd", 3);
+    assert(_write(ptr1, "string", 6)==-1);
+}
 
-    const int szBuf1=5;
-    char* ptrBuf1=calloc(szBuf1, sizeof(char));
+void write_test_2()          //адрес не указывает ни на один блок
+{
+    _init(15);
+    VA ptr="00000000";
+    VA ptr1="00000001";
+    _malloc(&ptr, 6);
 
-    const int szBuf2=4;
-    char* ptrBuf2=calloc(szBuf2, sizeof(char));
+    assert(_write(ptr1, "string", 6)==-1);
+}
 
-    const int szBuf3=3;
-    char* ptrBuf3=calloc(szBuf3, sizeof(char));
+void write_test_3()          //размер буфера не соответствует буферу
+{
+    _init(15);
+    VA ptr="00000000";
+    _malloc(&ptr, 6);
 
+    assert(_write(ptr, "string", 4)==-1);
+}
+
+void write_test_4()          //размер буфера больше размера блока
+{
+    _init(15);
+    VA ptr="00000000";
+    _malloc(&ptr, 4);
+
+    assert(_write(ptr, "string", 6)==-2);
+}
+
+void write_test_5()          //успешная запись информации в блок
+{
+    _init(15);
+    VA ptr="00000000";
+    _malloc(&ptr, 5);
+
+    assert(_write(ptr, "first", 5)==0);
+}
+
+void write_test_6()          //попытка записи в уже заполненный блок
+{
+    _init(15);
+    VA ptr="00000000";
+    _malloc(&ptr, 5);
+    _write(ptr, "first", 5);
+
+    assert(_write(ptr, "secnd", 5)==-1);
+}
+
+
+void run_read_tests()
+{
     printf("\nRead tests...\n");
 
-    assert(_read(ptr, ptrBuf1, szBuf1)==-1);          //несуществующий адрес
-    assert(_read(ptr1, ptrBuf1, szBuf1)==-1);         //некорректный адрес
-    assert(_read(ptr1, ptrBuf1, -2)==-1);             //некорректный размер адреса
-    assert(_read(ptr2, ptrBuf2, szBuf2)==-2);         //размер блока больше размера буфера
-    assert(_read(ptr2, ptrBuf1, szBuf1)==0);          //чтение информации из блока
-    assert(_read(ptr3, ptrBuf2, szBuf2)==0);          //чтение информации из блока
-    assert(_read(ptr4, ptrBuf3, szBuf3)==0);          //чтение информации из блока
+    read_test_1();
+    read_test_2();
+    read_test_3();
+    read_test_4();
+    read_test_5();
+    read_test_6();
 
     printf("\nRead tests passed successfully!\n");
+}
 
+void read_test_1()          //некорректный адрес
+{
+    _init(15);
+    VA ptr="00000000";
+    VA ptr1="000test70";
+    _malloc(&ptr, 5);
+    _write(ptr, "first", 5);
+    const int szBuf=5;
+    char* ptrBuf=calloc(szBuf, sizeof(char));
+
+    assert(_read(ptr1, ptrBuf, szBuf)==-1);
+}
+
+void read_test_2()          //адрес не указывает ни на один блок
+{
+    _init(15);
+    VA ptr="00000000";
+    VA ptr1="00000001";
+    _malloc(&ptr, 5);
+    _write(ptr, "first", 5);
+    const int szBuf=5;
+    char* ptrBuf=calloc(szBuf, sizeof(char));
+
+    assert(_read(ptr1, ptrBuf, szBuf)==-1);
+}
+
+void read_test_3()          //некорректный размер буфера
+{
+    _init(15);
+    VA ptr="00000000";
+    _malloc(&ptr, 5);
+    _write(ptr, "first", 5);
+    const int szBuf=5;
+    char* ptrBuf=calloc(szBuf, sizeof(char));
+
+    assert(_read(ptr, ptrBuf, 0)==-1);
+}
+
+void read_test_4()          //размер блока больше размера буфера
+{
+    _init(15);
+    VA ptr="00000000";
+    _malloc(&ptr, 5);
+    _write(ptr, "first", 5);
+    const int szBuf=3;
+    char* ptrBuf=calloc(szBuf, sizeof(char));
+
+    assert(_read(ptr, ptrBuf, szBuf)==-2);
+}
+
+void read_test_5()          //успешное чтение информации из блока
+{
+    _init(15);
+    VA ptr="00000000";
+    _malloc(&ptr, 5);
+    _write(ptr, "first", 5);
+    const int szBuf=5;
+    char* ptrBuf=calloc(szBuf, sizeof(char));
+
+    assert(_read(ptr, ptrBuf, szBuf)==0);
+}
+
+void read_test_6()          //попытка чтения из пустого блока
+{
+    _init(15);
+    VA ptr="00000000";
+    _malloc(&ptr, 5);
+    const int szBuf=7;
+    char* ptrBuf=calloc(szBuf, sizeof(char));
+
+    assert(_read(ptr, ptrBuf, szBuf)==-1);
 }
 
 void custom_test()
@@ -219,8 +323,32 @@ void custom_test()
 
 void load_test()
 {
-    _init(200);
-    VA ptr="00000000";
+    int size = 255;
+    int size_block=1;
+    _init(size);
+
+    int i;
+    for (i=0; i<size/size_block; i++)
+    {
+        VA ptr=convertToVA(i);
+        _malloc(&ptr, size_block);
+        _write(ptr, "i", size_block);
+    }
+    printMemory();
+
+    for (i=0; i<size/size_block; i+=2)
+    {
+        VA ptr=convertToVA(i);
+        _free(ptr);
+    }
+    printMemory();
+    VA ptr=convertToVA(size+1);
+
+    _malloc(&ptr, 5);
+
+    _write(ptr, "block", 5);
+    printMemory();
+/*    VA ptr="00000000";
     VA ptr1="00000001";
     VA ptr2="00000010";
     VA ptr3="00000011";
@@ -252,5 +380,6 @@ void load_test()
 
     //подсчет времени на сжатие внутри compression memory
     assert(_malloc(&ptr10, 70)==0);           //добавление блока (будет производиться сжатие)
+*/
 
 }

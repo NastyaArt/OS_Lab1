@@ -156,7 +156,13 @@ struct block *findBlockByVA(VA ptr)
 //сжатие памяти
 void compressionMemory()
 {
+    FILE *fp;
+    fp = fopen("D:\\Nastya\\CodeBlocks\\Lab1\\testCompression.txt", "w+"); //заменить на a - добавление в конец (в начале тестов очищать файл)
+    fprintf(fp, "Testing compression\nSize - %d \n", Manager->size);
+
     printf("\nCompression Memory...");
+    struct timeval ta, te;
+    gettimeofday(&ta, NULL);
     struct block *curBlock = Manager->blocks;          //получаем из менеджера ссылку на первый блок
     int curOffset = 0;
 
@@ -176,6 +182,8 @@ void compressionMemory()
             curBlock=curBlock->next;
         }
     }
+    gettimeofday(&te, NULL);
+    fprintf(fp, "time elapsed: %lf sec\n", te.tv_sec - ta.tv_sec + (te.tv_usec - ta.tv_usec)/1000000.0);
     printf("\nCompression Memory is ended");
 }
 
@@ -213,12 +221,6 @@ void moveData(int curOffset, int newOffset, int size)
  **/
 int _malloc (VA* ptr, size_t szBlock)
 {
-    FILE *fp;
-    clock_t timer;
-    fp = fopen("D:\\Nastya\\CodeBlocks\\Lab1\\testCompression.txt", "w+"); //заменить на a - добавление в конец (в начале тестов очищать файл)
-    fprintf(fp, "Testing compression\nSize - %d \n", Manager->size);
-
-
     if (szBlock>Manager->size)                              //попытка выделить блок больше всей памяти
         return -2;
     if (validVA(*ptr)==FALSE)                               //проверка является ли адрес корректным
@@ -231,19 +233,12 @@ int _malloc (VA* ptr, size_t szBlock)
     if (offset>=0)
         add=addBlock(*ptr, szBlock, offset);                //создаем блок в offset
     else {
-        timer = clock();
-      //  printf("\nruntime = %f" , clock()/1.0 );
-        compressionMemory();
-     //   printf("\nruntime = %f" , clock()/1.0 );
-        timer = clock() - timer;
-        fprintf(fp, "Time - %f\n", timer/1.0);  //миллисекунды (1с = 1000млс)
-       // printf("runtime = %f" , clock()/1.0 );
-
-        offset=findPlace(szBlock);                          //снова проверка, есть ли место
-        if (offset>=0)
-            add=addBlock(*ptr, szBlock, offset);            //создаем блок в offset
-        else
-            return -2;                                       //иначе места нет
+            compressionMemory();
+            offset=findPlace(szBlock);                          //снова проверка, есть ли место
+            if (offset>=0)
+                add=addBlock(*ptr, szBlock, offset);            //создаем блок в offset
+            else
+                return -2;                                       //иначе места нет
     }
     if (add==TRUE)
         return 0;
@@ -300,7 +295,7 @@ int _free (VA ptr)
  **/
 int _read (VA ptr, void* pBuffer, size_t szBuffer)
 {
-    if (validVA(ptr)==FALSE || szBuffer<=0)             //проверка является ли адрес и размер буфера корректными
+    if (validVA(ptr)==FALSE || szBuffer==0)             //проверка является ли адрес и размер буфера корректными
         return -1;
     struct block *curBlock;
     curBlock=findBlockByVA(ptr);                        //поиск блока по адресу
@@ -308,7 +303,7 @@ int _read (VA ptr, void* pBuffer, size_t szBuffer)
         return -1;
     if (curBlock->size>szBuffer)                        //проверка размеров
         return -2;
-    if (curBlock->isEmpty==TRUE)
+    if (curBlock->isEmpty==TRUE)                        //проверка заполненности блока
         return -1;
 
     int i, j;

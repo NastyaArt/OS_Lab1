@@ -5,7 +5,7 @@
 #include <malloc.h>
 #include <mem.h>
 #include <math.h>
-#include <time.h>
+#include <sys/time.h>
 #include "block.h"
 #include "mmemory.h"
 
