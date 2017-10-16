@@ -10,13 +10,13 @@
 #define FALSE 0
 
 struct block{
-    VA address[ADDRESS_SIZE];                         //адрес блока
+    VA address[ADDRESS_SIZE];           //адрес блока
     int size;                           //размер блока
     int offset;                         //сдвиг от начала памяти
     char isEmpty;                       //является ли блок пустым
 	struct block *next;                 //указатель на следующий блок
 };
 
-struct block *createBlock(VA address, int size, int offset);  //создает новый блок с указанным размером, адресом и сдвигом
+struct block *createBlock(VA address, int size, int offset);
 
 #endif //MEMORY_BLOCK_H

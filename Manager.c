@@ -8,20 +8,21 @@ void printMemory()
 	for( i=0; i < Manager->size; i++)
 		printf("%c", Manager->data[i] );
 }
-/*
-//перевод адреса в целое число
-int VAToInt (VA ptr)
-{
-    int dec = 0;
-    int i=0, exp=0;
-    for (i = strlen(ptr)-1, exp = 0; i >= 0; i--, exp++) {
-        int num = ptr[i] - '0';
-        dec += num * pow(2, exp);
+
+//перевод десятичного числа в двоичное (для нагрузочного теста)
+VA convertToVA(int num) {
+    unsigned int mask = MAX_MEMORY_SIZE;
+    VA address = calloc(ADDRESS_SIZE, sizeof(char) * ADDRESS_SIZE);
+    while (mask > 0) {
+
+        ((num & mask) == 0) ? strncat(address, "0", 1) : strncat(address, "1", 1);
+
+        mask = mask >> 1;  // Right Shift
     }
-    printf("\nNumber - %d", dec);
-    return dec;
+    return address+1;
 }
-*/
+
+
 //проверка адреса
 int validVA(VA ptr)
 {
@@ -155,7 +156,7 @@ struct block *findBlockByVA(VA ptr)
 //сжатие памяти
 void compressionMemory()
 {
-  //  printf("\nCompression Memory...");
+    printf("\nCompression Memory...");
     struct block *curBlock = Manager->blocks;          //получаем из менеджера ссылку на первый блок
     int curOffset = 0;
 
@@ -175,6 +176,7 @@ void compressionMemory()
             curBlock=curBlock->next;
         }
     }
+    printf("\nCompression Memory is ended");
 }
 
 //перемещение данных в памяти
@@ -211,6 +213,12 @@ void moveData(int curOffset, int newOffset, int size)
  **/
 int _malloc (VA* ptr, size_t szBlock)
 {
+    FILE *fp;
+    clock_t timer;
+    fp = fopen("D:\\Nastya\\CodeBlocks\\Lab1\\testCompression.txt", "w+"); //заменить на a - добавление в конец (в начале тестов очищать файл)
+    fprintf(fp, "Testing compression\nSize - %d \n", Manager->size);
+
+
     if (szBlock>Manager->size)                              //попытка выделить блок больше всей памяти
         return -2;
     if (validVA(*ptr)==FALSE)                               //проверка является ли адрес корректным
@@ -223,7 +231,14 @@ int _malloc (VA* ptr, size_t szBlock)
     if (offset>=0)
         add=addBlock(*ptr, szBlock, offset);                //создаем блок в offset
     else {
-        compressionMemory();                                //произвдоим сжатие памяти
+        timer = clock();
+      //  printf("\nruntime = %f" , clock()/1.0 );
+        compressionMemory();
+     //   printf("\nruntime = %f" , clock()/1.0 );
+        timer = clock() - timer;
+        fprintf(fp, "Time - %f\n", timer/1.0);  //миллисекунды (1с = 1000млс)
+       // printf("runtime = %f" , clock()/1.0 );
+
         offset=findPlace(szBlock);                          //снова проверка, есть ли место
         if (offset>=0)
             add=addBlock(*ptr, szBlock, offset);            //создаем блок в offset
@@ -370,6 +385,5 @@ int _init (int sizeMemory)
     Manager->size = sizeMemory;
     memset(Manager->data, '0', Manager->size);
     Manager->blocks = NULL;
-    //printMemory();
     return 0;
 }

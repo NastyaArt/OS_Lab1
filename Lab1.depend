@@ -33,18 +33,19 @@
 1506826224 source:d:\nastya\codeblocks\lab1\block.cpp
 	"Block.h"
 
-1507655982 d:\nastya\codeblocks\lab1\block.h
+1507971397 d:\nastya\codeblocks\lab1\block.h
 	<stdio.h>
 	<stdlib.h>
 	<memory.h>
 	"mmemory.h"
 
-1507740210 d:\nastya\codeblocks\lab1\manager.h
+1508144547 d:\nastya\codeblocks\lab1\manager.h
 	<stdio.h>
 	<stdlib.h>
 	<malloc.h>
 	<mem.h>
 	<math.h>
+	<time.h>
 	"block.h"
 	"mmemory.h"
 
@@ -53,17 +54,17 @@
 1506828929 source:d:\nastya\codeblocks\lab1\manager.cpp
 	"manager.h"
 
-1507736366 source:d:\nastya\codeblocks\lab1\block.c
+1507971396 source:d:\nastya\codeblocks\lab1\block.c
 	"Block.h"
 
-1507889769 source:d:\nastya\codeblocks\lab1\main.c
+1508144572 source:d:\nastya\codeblocks\lab1\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"manager.h"
 	"tests.h"
 
-1507893092 source:d:\nastya\codeblocks\lab1\manager.c
+1508144879 source:d:\nastya\codeblocks\lab1\manager.c
 	"manager.h"
 
 1506977338 source:f:\ня\lab1\block.c
@@ -95,9 +96,9 @@
 1507012362 source:f:\ня\lab1\manager.c
 	"manager.h"
 
-1507736463 d:\nastya\codeblocks\lab1\tests.h
+1507971757 d:\nastya\codeblocks\lab1\tests.h
 
-1507891713 source:d:\nastya\codeblocks\lab1\tests.c
+1507975620 source:d:\nastya\codeblocks\lab1\tests.c
 	<stdio.h>
 	<assert.h>
 	"tests.h"

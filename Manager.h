@@ -5,6 +5,7 @@
 #include <malloc.h>
 #include <mem.h>
 #include <math.h>
+#include <time.h>
 #include "block.h"
 #include "mmemory.h"
 
@@ -20,8 +21,9 @@ typedef struct{
 
 memManager *Manager;
 
+
+
 void printMemory();
-//int VAToInt (VA ptr);
 int validVA(VA ptr);
 int isFreeVA(VA ptr);
 int addBlock(VA address, int size, int offset);

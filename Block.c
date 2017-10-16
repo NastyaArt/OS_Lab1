@@ -1,5 +1,6 @@
 #include "Block.h"
 
+//создает новый блок с указанным размером, адресом и сдвигом
 struct block *createBlock(VA address, int size, int offset)
 {
     struct block *newBlock;

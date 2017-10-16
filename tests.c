@@ -3,45 +3,93 @@
 #include "tests.h"
 #include "manager.h"
 
-void init_test()
+void run_init_tests()
 {
     printf("\nInit tests...\n");
 
-    assert(_init(-5)==-1);              //некорректные данные
-    assert(_init(0)==-1);               //некорректные данные
-    assert(_init(270)==-1);             //попытка выделить память больше допустимого
-    assert(_init(180)==0);              //инициализация
-    assert(_init(256)==0);              //инициализация
+    init_test_1();
+    init_test_2();
+    init_test_3();
 
     printf("\nInit tests passed successfully!\n");
 }
 
-void malloc_test()
+void init_test_1()          //некорректные данные
 {
-    _init(100);
-    VA ptr="00000000";
-    VA ptr1="00test00";
-    VA ptr2="000017011";
-    VA ptr3="00000001";
-    VA ptr4="00000010";
-    VA ptr5="10000011";
-    VA ptr6="00000010";
+    assert(_init(-5)==-1);
+}
 
+void init_test_2()          //попытка выделить память больше допустимого
+{
+    assert(_init(270)==-1);
+}
+
+void init_test_3()          //успешная инициализация
+{
+    assert(_init(180)==0);
+}
+
+void run_malloc_tests()
+{
     printf("\nMalloc tests...\n");
 
-    assert(_malloc(&ptr, 110)==-2);      //блок больше всей памяти
-    assert(_malloc(&ptr1, 10)==-1);      //некорректный адрес
-    assert(_malloc(&ptr2, 10)==-1);      //некорректный адрес
-    assert(_malloc(&ptr3, 40)==0);       //добавление блока
-    assert(_malloc(&ptr4, 50)==0);       //добавление блока
-    assert(_malloc(&ptr5, 20)==-2);      //нехватка памяти
-    assert(_malloc(&ptr6, 10)==-1);      //адрес уже занят
+    malloc_test_1();
+    malloc_test_2();
+    malloc_test_3();
+    malloc_test_4();
+    malloc_test_5();
 
     printf("\nMalloc tests passed successfully!\n");
 
 }
 
-void free_test()
+void malloc_test_1()          //блок больше всей памяти
+{
+    _init(100);
+    VA ptr="00000000";
+
+    assert(_malloc(&ptr, 110)==-2);
+}
+
+void malloc_test_2()          //некорректный адрес
+{
+    _init(100);
+    VA ptr="00test70";
+
+    assert(_malloc(&ptr, 10)==-1);
+}
+
+void malloc_test_3()          //успешное добавление блока
+{
+    _init(100);
+    VA ptr="00000000";
+
+    assert(_malloc(&ptr, 40)==0);
+}
+
+void malloc_test_4()          //нехватка памяти
+{
+    _init(100);
+    VA ptr1="00000000";
+    VA ptr2="00000001";
+    VA ptr3="00000010";
+    _malloc(&ptr1, 40)
+    _malloc(&ptr2, 40)
+
+    assert(_malloc(&ptr, 40)==-2);
+}
+
+void malloc_test_5()          //адрес уже занят
+{
+    _init(100);
+    VA ptr1="00000000";
+    VA ptr2="00000000";
+    _malloc(&ptr1, 40)
+
+    assert(_malloc(&ptr2, 60)==-2);
+}
+
+void run_free_tests()
 {
     _init(100);
 
@@ -137,5 +185,72 @@ void read_test()
 
 void custom_test()
 {
+    printf("\nCustom test...\n");
+    _init(10);
+    VA ptr="00000000";
+    VA ptr1="00000001";
+    VA ptr2="00000010";
+    VA ptr3="00000011";
+    VA ptr4="00000100";
+
+    assert(_malloc(&ptr, 2)==0);            //добавление блока
+    assert(_malloc(&ptr1, 2)==0);           //добавление блока
+    assert(_malloc(&ptr2, 2)==0);           //добавление блока
+    assert(_malloc(&ptr3, 1)==0);           //добавление блока
+
+    assert(_write(ptr, "11", 2)==0);
+    assert(_write(ptr1, "22", 2)==0);
+    assert(_write(ptr2, "33", 2)==0);
+    assert(_write(ptr3, "4", 1)==0);
+
+    printMemory();
+
+    assert(_free(ptr1)==0);                 //удаление блока
+
+    assert(_malloc(&ptr4, 4)==0);           //добавление блока (будет производиться сжатие)
+
+    assert(_write(ptr4, "5555", 4)==0);
+
+    printMemory();
+
+    printf("\nCustom test passed successfully!\n");
+
+}
+
+void load_test()
+{
+    _init(200);
+    VA ptr="00000000";
+    VA ptr1="00000001";
+    VA ptr2="00000010";
+    VA ptr3="00000011";
+    VA ptr4="00000100";
+    VA ptr5="00011100";
+    VA ptr6="00000101";
+    VA ptr7="00000111";
+    VA ptr8="00001000";
+    VA ptr9="00001001";
+    VA ptr10="00001011";
+
+    assert(_malloc(&ptr, 20)==0);            //добавление блока
+    assert(_malloc(&ptr1, 20)==0);           //добавление блока
+    assert(_malloc(&ptr2, 20)==0);           //добавление блока
+    assert(_malloc(&ptr3, 20)==0);           //добавление блока
+    assert(_malloc(&ptr4, 20)==0);            //добавление блока
+    assert(_malloc(&ptr5, 20)==0);           //добавление блока
+    assert(_malloc(&ptr6, 20)==0);           //добавление блока
+    assert(_malloc(&ptr7, 20)==0);           //добавление блока
+    assert(_malloc(&ptr8, 20)==0);           //добавление блока
+    assert(_malloc(&ptr9, 20)==0);           //добавление блока
+
+    assert(_free(ptr1)==0);                 //удаление блока
+    assert(_free(ptr2)==0);                 //удаление блока
+    assert(_free(ptr3)==0);                 //удаление блока
+    assert(_free(ptr5)==0);                 //удаление блока
+    assert(_free(ptr7)==0);                 //удаление блока
+    assert(_free(ptr9)==0);                 //удаление блока
+
+    //подсчет времени на сжатие внутри compression memory
+    assert(_malloc(&ptr10, 70)==0);           //добавление блока (будет производиться сжатие)
 
 }

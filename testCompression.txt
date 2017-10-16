@@ -1,0 +1,71 @@
+Testing compression
+Size - 200 
+Time - 0.000000
+Testing compression
+Size - 10 
+Testing compression
+Size - 10 
+Testing compression
+Size - 10 
+Testing compression
+Size - 10 
+Testing compression
+Size - 10 
+Time - 0.000000
+Testing compression
+Size - 200 
+Testing compression
+Size - 200 
+Testing compression
+Size - 200 
+Testing compression
+Size - 200 
+Testing compression
+Size - 200 
+Testing compression
+Size - 200 
+Testing compression
+Size - 200 
+Testing compression
+Size - 200 
+Testing compression
+Size - 200 
+Testing compression
+Size - 200 
+Testing compression
+Size - 200 
+Time - 1.000000
+Testing compression
+Size - 10 
+Testing compression
+Size - 10 
+Testing compression
+Size - 10 
+Testing compression
+Size - 10 
+Testing compression
+Size - 10 
+Time - 1.000000
+Testing compression
+Size - 200 
+Testing compression
+Size - 200 
+Testing compression
+Size - 200 
+Testing compression
+Size - 200 
+Testing compression
+Size - 200 
+Testing compression
+Size - 200 
+Testing compression
+Size - 200 
+Testing compression
+Size - 200 
+Testing compression
+Size - 200 
+Testing compression
+Size - 200 
+Testing compression
+Size - 200 
+Time - 0.000000
