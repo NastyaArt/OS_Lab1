@@ -156,13 +156,8 @@ struct block *findBlockByVA(VA ptr)
 //сжатие пам€ти
 void compressionMemory()
 {
-    FILE *fp;
-    fp = fopen("D:\\Nastya\\CodeBlocks\\Lab1\\testCompression.txt", "w+"); //заменить на a - добавление в конец (в начале тестов очищать файл)
-    fprintf(fp, "Testing compression\nSize - %d \n", Manager->size);
+   // printf("\nCompression Memory...");
 
-    printf("\nCompression Memory...");
-    struct timeval ta, te;
-    gettimeofday(&ta, NULL);
     struct block *curBlock = Manager->blocks;          //получаем из менеджера ссылку на первый блок
     int curOffset = 0;
 
@@ -182,9 +177,8 @@ void compressionMemory()
             curBlock=curBlock->next;
         }
     }
-    gettimeofday(&te, NULL);
-    fprintf(fp, "time elapsed: %lf sec\n", te.tv_sec - ta.tv_sec + (te.tv_usec - ta.tv_usec)/1000000.0);
-    printf("\nCompression Memory is ended");
+
+   // printf("\nCompression Memory is ended");
 }
 
 //перемещение данных в пам€ти

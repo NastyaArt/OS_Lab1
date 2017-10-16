@@ -1,6 +1,9 @@
 #ifndef MEMORY_TESTS_H
 #define MEMORY_TESTS_H
 
+#include <sys/time.h>
+#include <time.h>
+
 void run_init_tests();
 void init_test_1();
 void init_test_2();
@@ -36,6 +39,7 @@ void read_test_6();
 
 void custom_test();
 
-void load_test();
+void run_load_tests();
+void load_test(int size);
 
 #endif //MEMORY_TESTS_H

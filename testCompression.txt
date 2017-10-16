@@ -1,3 +1,23 @@
 Testing compression
-Size - 255 
-time elapsed: 0.000000 sec
+Size - 10000 
+Time: 1.000000 msec
+
+Testing compression
+Size - 20000 
+Time: 2.000000 msec
+
+Testing compression
+Size - 30000 
+Time: 3.000000 msec
+
+Testing compression
+Size - 40000 
+Time: 4.000000 msec
+
+Testing compression
+Size - 50000 
+Time: 5.000000 msec
+
+Testing compression
+Size - 60000 
+Time: 8.000000 msec

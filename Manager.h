@@ -5,11 +5,10 @@
 #include <malloc.h>
 #include <mem.h>
 #include <math.h>
-#include <sys/time.h>
 #include "block.h"
 #include "mmemory.h"
 
-#define MAX_MEMORY_SIZE 256            //максимальный размер участка памяти
+#define MAX_MEMORY_SIZE 256           //максимальный размер участка памяти //65536
 #define TRUE 1
 #define FALSE 0
 

@@ -12,3 +12,4 @@ struct block *createBlock(VA address, int size, int offset)
     newBlock->next=NULL;
     return newBlock;
 }
+

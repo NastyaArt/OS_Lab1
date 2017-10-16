@@ -321,33 +321,57 @@ void custom_test()
 
 }
 
-void load_test()
+void run_load_tests()
 {
-    int size = 255;
+    int max_size = 60000;
+    int size;
+    for (size=10000; size<=max_size; size+=10000)
+        load_test(size);
+}
+
+void load_test(int size)
+{
+    FILE *fp;
+    fp = fopen("D:\\Nastya\\CodeBlocks\\Lab1\\testCompression.txt", "a"); //заменить на a - добавление в конец (в начале тестов очищать файл)
+
+    struct timeval ta, te;
+    clock_t timer;
+
+
     int size_block=1;
+
+    fprintf(fp, "\nTesting compression\nSize - %d \n", size);
     _init(size);
 
     int i;
+
     for (i=0; i<size/size_block; i++)
     {
         VA ptr=convertToVA(i);
         _malloc(&ptr, size_block);
         _write(ptr, "i", size_block);
     }
-    printMemory();
+   // printMemory();
 
     for (i=0; i<size/size_block; i+=2)
     {
         VA ptr=convertToVA(i);
         _free(ptr);
     }
-    printMemory();
-    VA ptr=convertToVA(size+1);
 
-    _malloc(&ptr, 5);
+    gettimeofday(&ta, NULL);
 
-    _write(ptr, "block", 5);
-    printMemory();
+    compressionMemory();
+
+    gettimeofday(&te, NULL);
+    timer = clock() - timer;
+    fprintf(fp, "Time: %lf msec\n", (te.tv_sec - ta.tv_sec)*1000.0 + (te.tv_usec - ta.tv_usec)/1000.0);
+    printf("Time: %lf msec\n", (te.tv_sec - ta.tv_sec)*1000.0 + (te.tv_usec - ta.tv_usec)/1000.0);
+
+
+
+
+   // printMemory();
 /*    VA ptr="00000000";
     VA ptr1="00000001";
     VA ptr2="00000010";

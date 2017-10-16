@@ -1,0 +1,40 @@
+Testing compression
+Size - 1000 
+Time: 0.001000 msec
+
+Testing compression
+Size - 2000 
+Time: 1.000000 msec
+
+Testing compression
+Size - 3000 
+Time: 1.000000 msec
+
+Testing compression
+Size - 5000 
+Time: 1.000000 msec
+
+Testing compression
+Size - 10000 
+Time: 1.000000 msec
+
+Testing compression
+Size - 30000 
+Time: 3.000000 msec
+
+Testing compression
+Size - 40000 
+Time: 3.000000 msec
+
+Testing compression
+Size - 50000 
+Time: 4.001000 msec
+
+Testing compression
+Size - 60000 
+Time: 6.000000 msec
+
+Testing compression
+Size - 65000 
+Time: 6.001000 msec
+
