@@ -2,10 +2,11 @@
 1506762550 source:j:\ня\lab1\block.cpp
 	"Block.h"
 
-1506762528 j:\ня\lab1\block.h
+1508188638 j:\ня\lab1\block.h
 	<stdio.h>
 	<stdlib.h>
 	<memory.h>
+	"mmemory.h"
 
 1506762804 source:j:\ня\lab1\main.cpp
 	<stdio.h>
@@ -15,12 +16,14 @@
 1506762676 source:j:\ня\lab1\manager.cpp
 	"manager.h"
 
-1506762528 j:\ня\lab1\manager.h
-	"block.h"
-	"mmemory.h"
+1508188638 j:\ня\lab1\manager.h
+	<stdio.h>
+	<stdlib.h>
 	<malloc.h>
 	<mem.h>
 	<math.h>
+	"block.h"
+	"mmemory.h"
 
 1506717368 j:\ня\lab1\mmemory.h
 
@@ -66,10 +69,10 @@
 1508184127 source:d:\nastya\codeblocks\lab1\manager.c
 	"manager.h"
 
-1506977338 source:f:\ня\lab1\block.c
+1508181842 source:f:\ня\lab1\block.c
 	"Block.h"
 
-1506942124 f:\ня\lab1\block.h
+1508188638 f:\ня\lab1\block.h
 	<stdio.h>
 	<stdlib.h>
 	<memory.h>
@@ -83,7 +86,7 @@
 	<string.h>
 	"manager.h"
 
-1507008138 f:\ня\lab1\manager.h
+1508188638 f:\ня\lab1\manager.h
 	<stdio.h>
 	<stdlib.h>
 	<malloc.h>
@@ -92,7 +95,7 @@
 	"block.h"
 	"mmemory.h"
 
-1507012362 source:f:\ня\lab1\manager.c
+1508188658 source:f:\ня\lab1\manager.c
 	"manager.h"
 
 1508187712 d:\nastya\codeblocks\lab1\tests.h
@@ -104,4 +107,37 @@
 	<assert.h>
 	"tests.h"
 	"manager.h"
+
+1508218550 source:f:\ня\lab1\tests.c
+	<stdio.h>
+	<assert.h>
+	"tests.h"
+	"manager.h"
+
+1508187714 f:\ня\lab1\tests.h
+	<sys/time.h>
+	<time.h>
+
+1508181842 source:j:\ня\lab1\block.c
+	"Block.h"
+
+1508221630 source:j:\ня\lab1\manager.c
+	"manager.h"
+
+1509180988 source:j:\ня\lab1\tests.c
+	"tests.h"
+
+1509180988 j:\ня\lab1\tests.h
+	<stdio.h>
+	<assert.h>
+	<sys/time.h>
+	<time.h>
+	"manager.h"
+
+1509180528 source:j:\ня\lab1\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"manager.h"
+	"tests.h"
 

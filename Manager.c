@@ -33,10 +33,7 @@ int validVA(VA ptr)
         if (ptr[i] != '0' && ptr[i] != '1')
             return FALSE;
     }
-/*    if (VAToInt(ptr) >= MAX_MEMORY_SIZE) {     //адресов строго как размер менеджера, поэтому превышать размер нельзя
-        return FALSE;
-    }
-    */
+
     return TRUE;
 }
 
@@ -121,6 +118,13 @@ int addBlock(VA address, int size, int offset)
 //удаление блока из списка
 int delBlock(struct block * findBlock)
 {
+
+    int i;
+    for (i = findBlock->offset; i<findBlock->offset+findBlock->size; i++)     //обнуляем данные в Manager->data
+    {
+        Manager->data[i]='0';
+    }
+
 	if (Manager->blocks==findBlock)
 	{
         Manager->blocks=findBlock->next;
@@ -264,11 +268,7 @@ int _free (VA ptr)
     del=delBlock(curBlock);                             //удаление блока из списка
     if (del!=TRUE)
         return 1;
-    int i;
-    for (i = curBlock->offset; i<curBlock->offset+curBlock->size; i++)     //обнуляем данные в Manager->data
-    {
-        Manager->data[i]='0';
-    }
+
     free(curBlock);                                     //free сам блок
     return 0;
 }
@@ -363,8 +363,9 @@ int _write (VA ptr, void* pBuffer, size_t szBuffer)
 	@retval	-1	неверные параметры
 	@retval	1	неизвестная ошибка
  **/
-int _init (int sizeMemory)
+int _init (int n, int szPage)
 {
+    int sizeMemory = n*szPage;
     if (sizeMemory < 1 || sizeMemory > MAX_MEMORY_SIZE)
         return -1;
     Manager = (memManager *)malloc(sizeof(memManager));

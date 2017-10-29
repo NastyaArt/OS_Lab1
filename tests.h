@@ -1,8 +1,11 @@
 #ifndef MEMORY_TESTS_H
 #define MEMORY_TESTS_H
 
+#include <stdio.h>
+#include <assert.h>
 #include <sys/time.h>
 #include <time.h>
+#include "manager.h"
 
 void run_init_tests();
 void init_test_1();
